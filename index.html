@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Seating Tag (13.5cm x 7.5cm) - Final with Local Upload</title>
+    <title>Double Seating Tag Generator (13.5cm x 7.5cm)</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -27,14 +27,14 @@
             border-bottom: 2px solid #007bff;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            width: 450px;
-            max-width: 90%;
+            gap: 15px;
+            width: 480px;
+            max-width: 95%;
             border-radius: 8px;
         }
 
         .input-group { display: flex; flex-direction: column; }
-        .input-form-area label { font-weight: **bold**; display: block; margin-bottom: 3px; font-size: 10pt; }
+        .input-form-area label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 10pt; color: #007bff;}
         .input-form-area textarea { 
             padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: none; 
             height: 40px; width: 100%; box-sizing: border-box; 
@@ -44,12 +44,28 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        .action-buttons button {
-            padding: 10px 25px; background-color: #007bff; color: white;
-            border: none; border-radius: 4px; cursor: pointer; font-weight: **bold**;
-            margin-top: 10px; width: 100%;
+        .person-section {
+            border: 1px solid #007bff;
+            padding: 10px;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+        .person-section h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007bff;
+            border-bottom: 1px dashed #e6f7ff;
+            padding-bottom: 5px;
         }
 
+
+        /* --- CARD DISPLAY AREA --- */
+        .card-display-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Space between the two cards in the preview */
+        }
+        
         /* --- CARD STYLES --- */
         .seating-card-container {
             /* Exact size in centimeters: 13.5cm x 7.5cm */
@@ -70,13 +86,13 @@
             height: 100%;
             z-index: 1; 
             
-            /* **YOUR BORDER IMAGE LINK** (from your working GitHub/Hosted link) */
-            background-image: url('Untitled design (10).png'); 
+            /* YOUR BORDER IMAGE LINK */
+            background-image: url('https://i.ibb.co/68nL34f/Untitled-design-10.png'); 
             background-size: 100% 100%; 
             background-repeat: no-repeat;
         }
 
-        /* Content Layer - Centered over the image */
+        /* Content Layer - Adjustments made here to move content higher */
         .card-content {
             position: absolute;
             top: 0;
@@ -87,18 +103,19 @@
             
             display: flex;
             flex-direction: column;
-            justify-content: center; 
+            justify-content: flex-start; /* Aligns content to the top */
             align-items: center;
             text-align: center;
             
-            padding: 1.2cm; 
+            /* ADJUSTMENT: Reduced top padding (from 1.2cm to 0.8cm) to move text up */
+            padding: 0.8cm 1.2cm; 
             box-sizing: border-box;
         }
 
         /* --- LOGO PLACEMENT --- */
         .logo-placement {
             height: 1.5cm; 
-            margin-bottom: 0.5cm; 
+            margin-bottom: 0.3cm; /* Reduced margin to pull name up */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -108,18 +125,18 @@
         .logo-placement img {
             max-width: 100%;
             max-height: 100%;
-            height: 1.0cm; 
+            height: 1.2cm; 
             width: auto;
         }
 
         /* Name */
         .name-display {
             font-size: 16pt; 
-            font-weight: 700; /* Bold */
+            font-weight: 700; 
             text-transform: uppercase;
             color: #1a1a1a;
             line-height: 1.2;
-            padding-bottom: 0.3cm;
+            margin-bottom: 0.1cm;
             white-space: pre-wrap; 
         }
 
@@ -129,98 +146,155 @@
             font-weight: 400;
             color: #333333;
             line-height: 1.2;
-                        padding-bottom: 0.5cm;
-
             white-space: pre-wrap;
         }
 
-        /* --- PRINT STYLES --- */
+        /* --- PRINT STYLES (MOST IMPORTANT FOR TWO-UP) --- */
         @media print {
-            body { padding: 0; background-color: white; }
+            body { 
+                padding: 0; 
+                background-color: white;
+                /* Center the print block on the page */
+                align-items: flex-start; 
+            }
             .input-form-area { display: none; }
+            button { display: none; }
+
+            /* Ensure the two cards stick together and print vertically */
+            .card-display-area {
+                display: block; /* Change flex back to block for consistent print flow */
+                margin: 0 auto;
+                width: 13.5cm; /* Only need the width of one card */
+                page-break-after: avoid; /* Avoid page break right after the container */
+                gap: 0;
+            }
             .seating-card-container {
                 box-shadow: none; 
-                margin: 0 auto;
-                width: 13.5cm; 
-                height: 7.5cm;
+                margin: 0 0 1cm 0; /* 1cm margin between cards for easy cutting */
+                break-after: avoid; /* Prevent page break between the two cards */
             }
-            button { display: none; }
         }
     </style>
 </head>
 <body>
     
     <div class="input-form-area">
-        <h2>Seating Tag Customizer ($13.5\text{cm} \times 7.5\text{cm}$)</h2>
+        <h2>Double Seating Tag Customizer ($13.5\text{cm} \times 7.5\text{cm}$)</h2>
         
         <div class="input-group">
             <label for="logo-file">**Upload Logo** (PNG/JPG):</label>
             <input type="file" id="logo-file" accept="image/*" onchange="readLogoFile()">
         </div>
 
-        <div class="input-group">
-            <label for="person-name">Name (Weight: Bold 700):</label>
-            <textarea id="person-name" oninput="updateCard()">TAN SRI DATO' SERI DR NOOR
+        <!-- --- PERSON 1 INPUTS --- -->
+        <div class="person-section" id="person-1-group">
+            <h3>Card 1 Details</h3>
+            <div class="input-group">
+                <label for="person-1-name">Name (Card 1):</label>
+                <textarea id="person-1-name" oninput="updateCard(1)">TAN SRI DATO' SERI DR NOOR
 HISHAM ABDULLAH</textarea>
-        </div>
-        <div class="input-group">
-            <label for="person-designation">Title/Designation:</label>
-            <textarea id="person-designation" oninput="updateCard()">Pengerusi,
+            </div>
+            <div class="input-group">
+                <label for="person-1-designation">Title/Designation (Card 1):</label>
+                <textarea id="person-1-designation" oninput="updateCard(1)">Pengerusi,
 Institut Jantung Negara Sdn Bhd</textarea>
+            </div>
+        </div>
+
+        <!-- --- PERSON 2 INPUTS --- -->
+        <div class="person-section" id="person-2-group">
+            <h3>Card 2 Details</h3>
+            <div class="input-group">
+                <label for="person-2-name">Name (Card 2):</label>
+                <textarea id="person-2-name" oninput="updateCard(2)">DATUK DR. MOHAMMAD
+AZMAN BIN AZIZI</textarea>
+            </div>
+            <div class="input-group">
+                <label for="person-2-designation">Title/Designation (Card 2):</label>
+                <textarea id="person-2-designation" oninput="updateCard(2)">Chief Executive Officer,
+IJN Holdings Sdn Bhd</textarea>
+            </div>
         </div>
         
-        <button onclick="printCard()">Print Seating Tag</button>
+        <button onclick="printCard()" style="padding: 10px 25px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">Print Two Seating Tags</button>
     </div>
     
-    <div class="seating-card-container" id="printable-card">
-        <div class="border-image"></div>
+    <!-- --- CARD PREVIEW AREA (The entire block prints) --- -->
+    <div class="card-display-area">
         
-        <div class="card-content">
-            <div class="logo-placement">
-                <img id="logo-display" src="" alt="Logo Placement">
+        <!-- CARD 1 -->
+        <div class="seating-card-container" id="printable-card-1">
+            <div class="border-image"></div>
+            <div class="card-content">
+                <div class="logo-placement">
+                    <img id="logo-display-1" src="" alt="Logo Placement">
+                </div>
+                <div class="name-display" id="name-display-1"></div>
+                <div class="designation-display" id="designation-display-1"></div>
             </div>
-            <div class="name-display" id="name-display"></div>
-            <div class="designation-display" id="designation-display"></div>
         </div>
+
+        <!-- CARD 2 -->
+        <div class="seating-card-container" id="printable-card-2">
+            <div class="border-image"></div>
+            <div class="card-content">
+                <div class="logo-placement">
+                    <img id="logo-display-2" src="" alt="Logo Placement">
+                </div>
+                <div class="name-display" id="name-display-2"></div>
+                <div class="designation-display" id="designation-display-2"></div>
+            </div>
+        </div>
+
     </div>
     
     <script>
-        // Reads the file, converts it to a Data URL (like Base64), and sets the logo's source
+        // Global variable to store the Data URL for the logo
+        let globalLogoDataUrl = ''; 
+
+        // Reads the file, converts it to a Data URL, and stores it globally
         function readLogoFile() {
             const fileInput = document.getElementById('logo-file');
-            const logoDisplay = document.getElementById('logo-display');
             
             if (fileInput.files && fileInput.files[0]) {
                 const reader = new FileReader();
                 
                 reader.onload = function(e) {
-                    // Set the image source to the Data URL, displaying the uploaded image
-                    logoDisplay.src = e.target.result;
+                    globalLogoDataUrl = e.target.result;
+                    // Update both cards after the logo is loaded
+                    updateCard(1);
+                    updateCard(2);
                 }
                 
-                // Read the local file as a Data URL
                 reader.readAsDataURL(fileInput.files[0]);
             } else {
-                logoDisplay.src = ''; // Clear the image if no file is selected
+                globalLogoDataUrl = ''; // Clear logo if no file is selected
+                updateCard(1);
+                updateCard(2);
             }
-            updateCard();
         }
 
-        function updateCard() {
-            const name = document.getElementById('person-name').value.toUpperCase();
-            const designation = document.getElementById('person-designation').value;
+        // Updates the text and logo for a specific card (1 or 2)
+        function updateCard(personNumber) {
+            const name = document.getElementById(`person-${personNumber}-name`).value.toUpperCase();
+            const designation = document.getElementById(`person-${personNumber}-designation`).value;
             
-            document.getElementById('name-display').innerText = name;
-            document.getElementById('designation-display').innerText = designation;
-            // Note: The logo update is now handled by readLogoFile()
+            document.getElementById(`name-display-${personNumber}`).innerText = name;
+            document.getElementById(`designation-display-${personNumber}`).innerText = designation;
+            
+            // Apply the globally stored logo to the card
+            document.getElementById(`logo-display-${personNumber}`).src = globalLogoDataUrl;
         }
 
         function printCard() {
             window.print();
         }
 
-        // Initial update on load
-        document.addEventListener('DOMContentLoaded', updateCard);
+        // Initial update on load for both cards
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCard(1);
+            updateCard(2);
+        });
     </script>
 
 </body>
