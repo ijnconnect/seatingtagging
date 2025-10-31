@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Seating Tag (13.5cm x 7.5cm)</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CORE STYLES --- */
+        body {
+            margin: 0; 
+            padding: 20px; 
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7f7f7; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* --- INPUT FORM --- */
+        .input-form-area {
+            background-color: #e6f7ff;
+            padding: 15px 20px;
+            border-bottom: 2px solid #007bff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 450px;
+            max-width: 90%;
+            border-radius: 8px;
+        }
+
+        .input-group { display: flex; flex-direction: column; }
+        .input-form-area label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 10pt; }
+        .input-form-area textarea { 
+            padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: none; 
+            height: 40px; width: 100%; box-sizing: border-box; 
+        }
+        .action-buttons button {
+            padding: 10px 25px; background-color: #007bff; color: white;
+            border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
+            margin-top: 10px; width: 100%;
+        }
+
+        /* --- CARD STYLES --- */
+        .seating-card-container {
+            /* Set the exact size in centimeters: 13.5cm x 7.5cm */
+            width: 13.5cm; 
+            height: 7.5cm; 
+            
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            position: relative;
+            overflow: hidden; 
+        }
+
+        /* The Image Border Layer - **This now includes your hosted image** */
+        .border-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1; 
+            
+            /* WORKING LINK for the border image "Untitled design (10).png" */
+            background-image: url('https://drive.google.com/file/d/1_pItQMOy11Uhpem2vdtx2obgwzok2w9P/view?usp=sharing'); 
+            background-size: 100% 100%; 
+            background-repeat: no-repeat;
+        }
+
+        /* Content Layer - Centered over the image */
+        .card-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; 
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            
+            /* Padding to keep text within the border lines */
+            padding: 1.5cm; 
+            box-sizing: border-box;
+        }
+
+        /* Name */
+        .name-display {
+            font-size: 16pt; 
+            font-weight: 900; 
+            text-transform: uppercase;
+            color: #1a1a1a;
+            line-height: 1.2;
+            margin-bottom: 0.1cm;
+            white-space: pre-wrap; 
+        }
+
+        /* Designation */
+        .designation-display {
+            font-size: 12pt; 
+            font-weight: 400;
+            color: #333333;
+            line-height: 1.2;
+            white-space: pre-wrap;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { padding: 0; background-color: white; }
+            .input-form-area { display: none; }
+            .seating-card-container {
+                box-shadow: none; 
+                margin: 0 auto;
+                width: 13.5cm; 
+                height: 7.5cm;
+            }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="input-form-area">
+        <h2>Seating Tag Customizer ($13.5\text{cm} \times 7.5\text{cm}$)</h2>
+        <div class="input-group">
+            <label for="person-name">Name (Use Enter for new line):</label>
+            <textarea id="person-name">TAN SRI DATO' SERI DR NOOR
+HISHAM ABDULLAH</textarea>
+        </div>
+        <div class="input-group">
+            <label for="person-designation">Title/Designation:</label>
+            <textarea id="person-designation">Pengerusi,
+Institut Jantung Negara Sdn Bhd</textarea>
+        </div>
+        <button onclick="updateCard()">Update Card Preview</button>
+    </div>
+    
+    <div class="seating-card-container" id="printable-card">
+        <div class="border-image"></div>
+        
+        <div class="card-content">
+            <div class="name-display" id="name-display"></div>
+            <div class="designation-display" id="designation-display"></div>
+        </div>
+    </div>
+    
+    <button onclick="printCard()" style="padding: 10px 25px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;">Print Seating Tag</button>
+    
+    <script>
+        function updateCard() {
+            const name = document.getElementById('person-name').value.toUpperCase();
+            const designation = document.getElementById('person-designation').value;
+            
+            document.getElementById('name-display').innerText = name;
+            document.getElementById('designation-display').innerText = designation;
+        }
+
+        function printCard() {
+            window.print();
+        }
+
+        document.addEventListener('DOMContentLoaded', updateCard);
+    </script>
+
+</body>
+</html>
