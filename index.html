@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Seating Tag (13.5cm x 7.5cm)</title>
+    <title>Custom Seating Tag (13.5cm x 7.5cm) - Final with Local Upload</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     
@@ -34,30 +34,34 @@
         }
 
         .input-group { display: flex; flex-direction: column; }
-        .input-form-area label { font-weight: bold; display: block; margin-bottom: 3px; font-size: 10pt; }
+        .input-form-area label { font-weight: **bold**; display: block; margin-bottom: 3px; font-size: 10pt; }
         .input-form-area textarea { 
             padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: none; 
             height: 40px; width: 100%; box-sizing: border-box; 
         }
+        .input-form-area input[type="file"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
         .action-buttons button {
             padding: 10px 25px; background-color: #007bff; color: white;
-            border: none; border-radius: 4px; cursor: pointer; font-weight: bold;
+            border: none; border-radius: 4px; cursor: pointer; font-weight: **bold**;
             margin-top: 10px; width: 100%;
         }
 
         /* --- CARD STYLES --- */
         .seating-card-container {
-            /* Set the exact size in centimeters: 13.5cm x 7.5cm */
+            /* Exact size in centimeters: 13.5cm x 7.5cm */
             width: 13.5cm; 
             height: 7.5cm; 
-            
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             background-color: white;
             position: relative;
             overflow: hidden; 
         }
 
-        /* The Image Border Layer - **This now includes your hosted image** */
+        /* The Image Border Layer - Uses the working hosted link */
         .border-image {
             position: absolute;
             top: 0;
@@ -66,8 +70,8 @@
             height: 100%;
             z-index: 1; 
             
-            /* WORKING LINK for the border image "Untitled design (10).png" */
-            background-image: url('Untitled design (10).png'); 
+            /* **YOUR BORDER IMAGE LINK** (from your working GitHub/Hosted link) */
+            background-image: url('https://i.ibb.co/68nL34f/Untitled-design-10.png'); 
             background-size: 100% 100%; 
             background-repeat: no-repeat;
         }
@@ -83,23 +87,39 @@
             
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: center; 
             align-items: center;
             text-align: center;
             
-            /* Padding to keep text within the border lines */
-            padding: 1.5cm; 
+            padding: 1.2cm; 
             box-sizing: border-box;
+        }
+
+        /* --- LOGO PLACEMENT --- */
+        .logo-placement {
+            height: 1.5cm; 
+            margin-bottom: 0.5cm; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo-placement img {
+            max-width: 100%;
+            max-height: 100%;
+            height: 1.0cm; 
+            width: auto;
         }
 
         /* Name */
         .name-display {
             font-size: 16pt; 
-            font-weight: 900; 
+            font-weight: 700; /* Bold */
             text-transform: uppercase;
             color: #1a1a1a;
             line-height: 1.2;
-            margin-bottom: 0.1cm;
+            padding-bottom: 0.3cm;
             white-space: pre-wrap; 
         }
 
@@ -109,6 +129,8 @@
             font-weight: 400;
             color: #333333;
             line-height: 1.2;
+                        padding-bottom: 0.5cm;
+
             white-space: pre-wrap;
         }
 
@@ -130,43 +152,74 @@
     
     <div class="input-form-area">
         <h2>Seating Tag Customizer ($13.5\text{cm} \times 7.5\text{cm}$)</h2>
+        
         <div class="input-group">
-            <label for="person-name">Name (Use Enter for new line):</label>
-            <textarea id="person-name">TAN SRI DATO' SERI DR NOOR
+            <label for="logo-file">**Upload Logo** (PNG/JPG):</label>
+            <input type="file" id="logo-file" accept="image/*" onchange="readLogoFile()">
+        </div>
+
+        <div class="input-group">
+            <label for="person-name">Name (Weight: Bold 700):</label>
+            <textarea id="person-name" oninput="updateCard()">TAN SRI DATO' SERI DR NOOR
 HISHAM ABDULLAH</textarea>
         </div>
         <div class="input-group">
             <label for="person-designation">Title/Designation:</label>
-            <textarea id="person-designation">Pengerusi,
+            <textarea id="person-designation" oninput="updateCard()">Pengerusi,
 Institut Jantung Negara Sdn Bhd</textarea>
         </div>
-        <button onclick="updateCard()">Update Card Preview</button>
+        
+        <button onclick="printCard()">Print Seating Tag</button>
     </div>
     
     <div class="seating-card-container" id="printable-card">
         <div class="border-image"></div>
         
         <div class="card-content">
+            <div class="logo-placement">
+                <img id="logo-display" src="" alt="Logo Placement">
+            </div>
             <div class="name-display" id="name-display"></div>
             <div class="designation-display" id="designation-display"></div>
         </div>
     </div>
     
-    <button onclick="printCard()" style="padding: 10px 25px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin-top: 10px;">Print Seating Tag</button>
-    
     <script>
+        // Reads the file, converts it to a Data URL (like Base64), and sets the logo's source
+        function readLogoFile() {
+            const fileInput = document.getElementById('logo-file');
+            const logoDisplay = document.getElementById('logo-display');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Set the image source to the Data URL, displaying the uploaded image
+                    logoDisplay.src = e.target.result;
+                }
+                
+                // Read the local file as a Data URL
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                logoDisplay.src = ''; // Clear the image if no file is selected
+            }
+            updateCard();
+        }
+
         function updateCard() {
             const name = document.getElementById('person-name').value.toUpperCase();
             const designation = document.getElementById('person-designation').value;
             
             document.getElementById('name-display').innerText = name;
             document.getElementById('designation-display').innerText = designation;
+            // Note: The logo update is now handled by readLogoFile()
         }
 
         function printCard() {
             window.print();
         }
 
+        // Initial update on load
         document.addEventListener('DOMContentLoaded', updateCard);
     </script>
 
