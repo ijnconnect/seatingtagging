@@ -87,12 +87,12 @@
             z-index: 1; 
             
             /* YOUR BORDER IMAGE LINK */
-            background-image: url('Untitled design (10).png'); 
+            background-image: url('https://i.ibb.co/68nL34f/Untitled-design-10.png'); 
             background-size: 100% 100%; 
             background-repeat: no-repeat;
         }
 
-        /* Content Layer - Adjustments made here to move content higher */
+        /* Content Layer - Centered text now occupies the entire vertical space */
         .card-content {
             position: absolute;
             top: 0;
@@ -103,30 +103,14 @@
             
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Aligns content to the top */
+            /* CHANGE: Center content vertically */
+            justify-content: center; 
             align-items: center;
             text-align: center;
             
-            /* ADJUSTMENT: Reduced top padding (from 1.2cm to 0.8cm) to move text up */
+            /* ADJUSTMENT: Increased vertical padding for better spacing after removing logo */
             padding: 1.0cm 1.2cm; 
             box-sizing: border-box;
-        }
-
-        /* --- LOGO PLACEMENT --- */
-        .logo-placement {
-            height: 1.5cm; 
-            margin-bottom: 0.3cm; /* Reduced margin to pull name up */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-        }
-
-        .logo-placement img {
-            max-width: 100%;
-            max-height: 100%;
-            height: 1.0cm; 
-            width: auto;
         }
 
         /* Name */
@@ -181,10 +165,7 @@
     <div class="input-form-area">
         <h2>Double Seating Tag Customizer ($13.5\text{cm} \times 7.5\text{cm}$)</h2>
         
-        <div class="input-group">
-            <label for="logo-file">**Upload Logo** (PNG/JPG):</label>
-            <input type="file" id="logo-file" accept="image/*" onchange="readLogoFile()">
-        </div>
+        <!-- REMOVED: Logo Upload Section -->
 
         <!-- --- PERSON 1 INPUTS --- -->
         <div class="person-section" id="person-1-group">
@@ -203,7 +184,7 @@ Institut Jantung Negara Sdn Bhd</textarea>
 
         <!-- --- PERSON 2 INPUTS --- -->
         <div class="person-section" id="person-2-group">
-            <h3>Card 2 Details</h3>
+            <h3>Card 2 Details </h3>
             <div class="input-group">
                 <label for="person-2-name">Name (Card 2):</label>
                 <textarea id="person-2-name" oninput="updateCard(2)">DATUK DR. MOHAMMAD
@@ -226,9 +207,7 @@ IJN Holdings Sdn Bhd</textarea>
         <div class="seating-card-container" id="printable-card-1">
             <div class="border-image"></div>
             <div class="card-content">
-                <div class="logo-placement">
-                    <img id="logo-display-1" src="" alt="Logo Placement">
-                </div>
+                <!-- REMOVED: Logo Placement -->
                 <div class="name-display" id="name-display-1"></div>
                 <div class="designation-display" id="designation-display-1"></div>
             </div>
@@ -238,9 +217,7 @@ IJN Holdings Sdn Bhd</textarea>
         <div class="seating-card-container" id="printable-card-2">
             <div class="border-image"></div>
             <div class="card-content">
-                <div class="logo-placement">
-                    <img id="logo-display-2" src="" alt="Logo Placement">
-                </div>
+                <!-- REMOVED: Logo Placement -->
                 <div class="name-display" id="name-display-2"></div>
                 <div class="designation-display" id="designation-display-2"></div>
             </div>
@@ -249,30 +226,8 @@ IJN Holdings Sdn Bhd</textarea>
     </div>
     
     <script>
-        // Global variable to store the Data URL for the logo
-        let globalLogoDataUrl = ''; 
-
-        // Reads the file, converts it to a Data URL, and stores it globally
-        function readLogoFile() {
-            const fileInput = document.getElementById('logo-file');
-            
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    globalLogoDataUrl = e.target.result;
-                    // Update both cards after the logo is loaded
-                    updateCard(1);
-                    updateCard(2);
-                }
-                
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                globalLogoDataUrl = ''; // Clear logo if no file is selected
-                updateCard(1);
-                updateCard(2);
-            }
-        }
+        
+        // Removed globalLogoDataUrl and readLogoFile function
 
         // Updates the text and logo for a specific card (1 or 2)
         function updateCard(personNumber) {
@@ -282,8 +237,7 @@ IJN Holdings Sdn Bhd</textarea>
             document.getElementById(`name-display-${personNumber}`).innerText = name;
             document.getElementById(`designation-display-${personNumber}`).innerText = designation;
             
-            // Apply the globally stored logo to the card
-            document.getElementById(`logo-display-${personNumber}`).src = globalLogoDataUrl;
+            // Removed: Logo display update
         }
 
         function printCard() {
