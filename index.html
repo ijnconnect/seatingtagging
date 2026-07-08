@@ -8,13 +8,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================================
-           CORE STYLES
-        ========================================================= */
+        /* --- CORE STYLES --- */
         body {
             margin: 0;
             padding: 20px;
-            font-family: 'Poppins', Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             background-color: #f7f7f7;
             display: flex;
             flex-direction: column;
@@ -26,9 +24,7 @@
             box-sizing: border-box;
         }
 
-        /* =========================================================
-           INPUT FORM
-        ========================================================= */
+        /* --- INPUT FORM --- */
         .input-form-area {
             background-color: #e6f7ff;
             padding: 15px 20px;
@@ -36,7 +32,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            width: 520px;
+            width: 480px;
             max-width: 95%;
             border-radius: 8px;
         }
@@ -65,13 +61,14 @@
             border: 1px solid #ccc;
             border-radius: 4px;
             resize: none;
-            height: 46px;
+            height: 40px;
             width: 100%;
-            font-family: 'Poppins', Arial, sans-serif;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
         }
 
         .input-form-area input[type="file"] {
-            padding: 6px;
+            padding: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
             background: #ffffff;
@@ -90,31 +87,24 @@
             color: #007bff;
             border-bottom: 1px dashed #e6f7ff;
             padding-bottom: 5px;
-            font-size: 12pt;
         }
 
-        .preview-row {
+        #logo-preview-container {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-top: 6px;
+            margin-top: 5px;
         }
 
-        .preview-img {
-            max-width: 80px;
-            max-height: 55px;
+        #logo-preview {
+            max-width: 50px;
+            max-height: 50px;
             border: 1px solid #ccc;
             padding: 3px;
             border-radius: 4px;
             display: none;
-            background: #fff;
             object-fit: contain;
-        }
-
-        .note {
-            font-size: 9pt;
-            color: #555;
-            line-height: 1.4;
+            background: #ffffff;
         }
 
         button {
@@ -125,65 +115,57 @@
             border-radius: 4px;
             cursor: pointer;
             font-weight: bold;
-            font-family: 'Poppins', Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
         }
 
         button:hover {
             background-color: #218838;
         }
 
-        /* =========================================================
-           CARD DISPLAY AREA
-        ========================================================= */
+        .small-note {
+            font-size: 9pt;
+            color: #555;
+            line-height: 1.4;
+        }
+
+        /* --- CARD DISPLAY AREA --- */
         .card-display-area {
             display: flex;
             flex-direction: column;
             gap: 15px;
         }
 
+        /* --- CARD STYLES --- */
         .seating-card-container {
             width: 13.5cm;
             height: 7.5cm;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             background-color: white;
             position: relative;
             overflow: hidden;
         }
 
-        /* =========================================================
-           BACKGROUND TEMPLATE IMAGE
-           Important:
-           Use <img>, not CSS background-image.
-           This is more reliable on Windows and during print.
-        ========================================================= */
+        /* 
+           IMPORTANT:
+           This pulls your template directly from the GitHub folder.
+           Make sure the file name in GitHub is exactly: background
+           If you rename it to background.png, change src to ./background.png
+        */
         .border-template-img {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            z-index: 1;
             object-fit: fill;
-            display: none;
-        }
-
-        .empty-bg-note {
-            position: absolute;
-            inset: 0;
             z-index: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 20px;
-            color: #999;
-            font-size: 11pt;
-            border: 1px dashed #ccc;
-            background: #ffffff;
+            display: block;
         }
 
         .card-content {
             position: absolute;
-            inset: 0;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             z-index: 2;
@@ -195,6 +177,7 @@
             text-align: center;
 
             padding: 0.1cm 1.2cm;
+            box-sizing: border-box;
         }
 
         .logo-display {
@@ -223,9 +206,7 @@
             white-space: pre-wrap;
         }
 
-        /* =========================================================
-           PRINT STYLES
-        ========================================================= */
+        /* --- PRINT STYLES --- */
         @media print {
             @page {
                 size: A4 portrait;
@@ -235,7 +216,7 @@
             body {
                 padding: 0;
                 margin: 0;
-                background: white;
+                background-color: white;
                 display: block;
             }
 
@@ -273,24 +254,11 @@
         <h2>Double Seating Tag Customizer (13.5cm × 7.5cm)</h2>
 
         <div class="input-group">
-            <label for="background-upload">Background Template / Border Image (PNG/JPG):</label>
-            <input type="file" id="background-upload" accept="image/png, image/jpeg" onchange="readBackgroundFile()">
-            <div class="preview-row">
-                <img id="background-preview" class="preview-img" alt="Background Preview">
-                <div class="note">
-                    Upload the seating tag background/template here. This fixes the issue where the template only appears on one laptop.
-                </div>
-            </div>
-        </div>
-
-        <div class="input-group">
             <label for="logo-upload">Event/Company Logo (PNG/JPG):</label>
             <input type="file" id="logo-upload" accept="image/png, image/jpeg" onchange="readLogoFile()">
-            <div class="preview-row">
-                <img id="logo-preview" class="preview-img" alt="Logo Preview">
-                <div class="note">
-                    Optional. Upload logo if needed.
-                </div>
+
+            <div id="logo-preview-container">
+                <img id="logo-preview" alt="Logo Preview">
             </div>
         </div>
 
@@ -328,19 +296,16 @@ IJN Holdings Sdn Bhd</textarea>
 
         <button onclick="printCard()">Print Two Seating Tags</button>
 
-        <div class="note">
-            Important for Windows: after clicking print, enable <strong>Background graphics</strong> in the browser print settings if your browser shows that option.
+        <div class="small-note">
+            Background template is loaded directly from GitHub file: <strong>background</strong>.
+            For best print result on Windows, use Chrome or Edge.
         </div>
     </div>
 
     <div class="card-display-area">
 
         <div class="seating-card-container" id="printable-card-1">
-            <img class="border-template-img" id="background-display-1" src="" alt="Background Template 1">
-            <div class="empty-bg-note" id="empty-bg-note-1">
-                Upload background template to display seating card design.
-            </div>
-
+            <img class="border-template-img" src="./background" alt="Background Template">
             <div class="card-content">
                 <img class="logo-display" id="logo-display-1" src="" alt="Card Logo 1">
                 <div class="name-display" id="name-display-1"></div>
@@ -349,11 +314,7 @@ IJN Holdings Sdn Bhd</textarea>
         </div>
 
         <div class="seating-card-container" id="printable-card-2">
-            <img class="border-template-img" id="background-display-2" src="" alt="Background Template 2">
-            <div class="empty-bg-note" id="empty-bg-note-2">
-                Upload background template to display seating card design.
-            </div>
-
+            <img class="border-template-img" src="./background" alt="Background Template">
             <div class="card-content">
                 <img class="logo-display" id="logo-display-2" src="" alt="Card Logo 2">
                 <div class="name-display" id="name-display-2"></div>
@@ -365,88 +326,33 @@ IJN Holdings Sdn Bhd</textarea>
 
     <script>
         let globalLogoDataUrl = '';
-        let globalBackgroundDataUrl = '';
 
-        /* =========================================================
-           READ BACKGROUND TEMPLATE FILE
-        ========================================================= */
-        function readBackgroundFile() {
-            const fileInput = document.getElementById('background-upload');
-            const file = fileInput.files[0];
-            const backgroundPreview = document.getElementById('background-preview');
-
-            if (!file) {
-                globalBackgroundDataUrl = '';
-                backgroundPreview.src = '';
-                backgroundPreview.style.display = 'none';
-                updateBackgroundDisplays('');
-                return;
-            }
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                globalBackgroundDataUrl = e.target.result;
-
-                backgroundPreview.src = globalBackgroundDataUrl;
-                backgroundPreview.style.display = 'block';
-
-                updateBackgroundDisplays(globalBackgroundDataUrl);
-            };
-
-            reader.readAsDataURL(file);
-        }
-
-        function updateBackgroundDisplays(dataUrl) {
-            const bg1 = document.getElementById('background-display-1');
-            const bg2 = document.getElementById('background-display-2');
-            const note1 = document.getElementById('empty-bg-note-1');
-            const note2 = document.getElementById('empty-bg-note-2');
-
-            bg1.src = dataUrl;
-            bg2.src = dataUrl;
-
-            if (dataUrl) {
-                bg1.style.display = 'block';
-                bg2.style.display = 'block';
-                note1.style.display = 'none';
-                note2.style.display = 'none';
-            } else {
-                bg1.style.display = 'none';
-                bg2.style.display = 'none';
-                note1.style.display = 'flex';
-                note2.style.display = 'flex';
-            }
-        }
-
-        /* =========================================================
-           READ LOGO FILE
-        ========================================================= */
         function readLogoFile() {
             const fileInput = document.getElementById('logo-upload');
             const file = fileInput.files[0];
             const logoPreview = document.getElementById('logo-preview');
 
-            if (!file) {
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    globalLogoDataUrl = e.target.result;
+
+                    logoPreview.src = globalLogoDataUrl;
+                    logoPreview.style.display = 'block';
+
+                    updateLogoDisplays(globalLogoDataUrl);
+                };
+
+                reader.readAsDataURL(file);
+            } else {
                 globalLogoDataUrl = '';
+
                 logoPreview.src = '';
                 logoPreview.style.display = 'none';
+
                 updateLogoDisplays('');
-                return;
             }
-
-            const reader = new FileReader();
-
-            reader.onload = function(e) {
-                globalLogoDataUrl = e.target.result;
-
-                logoPreview.src = globalLogoDataUrl;
-                logoPreview.style.display = 'block';
-
-                updateLogoDisplays(globalLogoDataUrl);
-            };
-
-            reader.readAsDataURL(file);
         }
 
         function updateLogoDisplays(dataUrl) {
@@ -460,40 +366,22 @@ IJN Holdings Sdn Bhd</textarea>
             logo2.style.display = dataUrl ? 'block' : 'none';
         }
 
-        /* =========================================================
-           UPDATE CARD TEXT
-        ========================================================= */
         function updateCard(personNumber) {
-            const nameInput = document.getElementById(`person-${personNumber}-name`);
-            const designationInput = document.getElementById(`person-${personNumber}-designation`);
-
-            const name = nameInput.value.toUpperCase();
-            const designation = designationInput.value;
+            const name = document.getElementById(`person-${personNumber}-name`).value.toUpperCase();
+            const designation = document.getElementById(`person-${personNumber}-designation`).value;
 
             document.getElementById(`name-display-${personNumber}`).innerText = name;
             document.getElementById(`designation-display-${personNumber}`).innerText = designation;
+
+            if (globalLogoDataUrl) {
+                updateLogoDisplays(globalLogoDataUrl);
+            }
         }
 
-        /* =========================================================
-           PRINT
-        ========================================================= */
         function printCard() {
-            if (!globalBackgroundDataUrl) {
-                const confirmPrint = confirm(
-                    'Background template is not uploaded yet. Print without background?'
-                );
-
-                if (!confirmPrint) {
-                    return;
-                }
-            }
-
             window.print();
         }
 
-        /* =========================================================
-           INITIAL LOAD
-        ========================================================= */
         document.addEventListener('DOMContentLoaded', function() {
             updateCard(1);
             updateCard(2);
