@@ -253,11 +253,59 @@
                 print-color-adjust: exact;
             }
         }
+
+        /* --- TWO-COLUMN EDITOR / PREVIEW WORKSPACE --- */
+        body { display:block; padding:24px; background:#f3f6fa; }
+        .workspace-layout {
+            width:100%; max-width:1440px; margin:0 auto;
+            display:grid; grid-template-columns:minmax(350px, 450px) minmax(0, 1fr);
+            gap:24px; align-items:start;
+        }
+        .input-form-area {
+            width:100%; max-width:none; min-width:0;
+            background:#fff; border:1px solid #dbe4ed;
+            border-bottom:1px solid #dbe4ed; border-radius:12px;
+            padding:22px; box-shadow:0 3px 14px rgba(10,25,49,.04);
+        }
+        .input-form-area h2 { font-size:19px; line-height:1.4; }
+        .preview-panel {
+            position:sticky; top:24px; min-width:0;
+            background:#fff; border:1px solid #dbe4ed; border-radius:12px;
+            padding:22px; box-shadow:0 3px 14px rgba(10,25,49,.04);
+        }
+        .preview-heading { margin-bottom:18px; }
+        .preview-heading h2 { margin:0 0 4px; font-size:19px; color:#0A1931; }
+        .preview-heading p { margin:0; color:#64748b; font-size:12px; }
+        .card-display-area { align-items:center; gap:18px; }
+        .seating-card-container { max-width:100%; flex-shrink:0; }
+        @media screen and (max-width:1100px) {
+            .workspace-layout { grid-template-columns:minmax(300px, 390px) minmax(0,1fr); gap:16px; }
+            .input-form-area,.preview-panel { padding:16px; }
+            .card-display-area { overflow-x:auto; align-items:flex-start; }
+            .seating-card-container { max-width:none; }
+        }
+        @media screen and (max-width:850px) {
+            body { padding:12px; }
+            .workspace-layout { display:flex; flex-direction:column; gap:16px; }
+            .input-form-area,.preview-panel { width:100%; }
+            .preview-panel { position:static; }
+            .card-display-area { align-items:center; }
+            .seating-card-container { max-width:100%; }
+        }
+        @media print {
+            body { padding:0 !important; background:#fff !important; }
+            .workspace-layout { display:block !important; width:auto !important; max-width:none !important; margin:0 !important; }
+            .input-form-area, .preview-heading { display:none !important; }
+            .preview-panel { display:block !important; position:static !important; padding:0 !important; margin:0 !important; border:0 !important; box-shadow:none !important; }
+            .card-display-area { display:block !important; overflow:visible !important; width:13.5cm !important; margin:0 auto !important; }
+            .seating-card-container { width:13.5cm !important; height:7.5cm !important; max-width:none !important; }
+        }
     </style>
 </head>
 
 <body>
 
+    <main class="workspace-layout">
     <div class="input-form-area">
         <h2>Double Seating Tag Customizer (13.5cm × 7.5cm)</h2>
 
@@ -323,6 +371,8 @@ IJN Holdings Sdn Bhd</textarea>
         </div>
     </div>
 
+    <section class="preview-panel" aria-label="Live print preview">
+        <div class="preview-heading"><h2>Live Print Preview</h2><p>Review both seating tags as you edit the details.</p></div>
     <div class="card-display-area">
 
         <div class="seating-card-container" id="printable-card-1">
@@ -344,6 +394,8 @@ IJN Holdings Sdn Bhd</textarea>
         </div>
 
     </div>
+    </section>
+    </main>
 
     <script>
         const STORAGE_KEY = 'ijn_seating_tag_library_v1';
